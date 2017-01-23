@@ -26,9 +26,9 @@ class User < ApplicationRecord
 
     # General autheticate method: return true if the given token match the digest
     def autheticate?(key, token)
-        digest_s = "#{key.to_s.downcase}_digest"
-        return false if self[digest_s].nil?
-        BCrypt::Password.new(self[digest_s]).is_password?(token)
+        digest_s = send("#{key.to_s.downcase}_digest")
+        return false if digest_s.nil?
+        BCrypt::Password.new(digest_s).is_password?(token)
     end
 
     # Activate an account
