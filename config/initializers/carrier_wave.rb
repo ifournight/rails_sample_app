@@ -7,7 +7,6 @@ end
 
 if Rails.env.production?
   CarrierWave.configure do |config|
-    config.fog_provider = 'fog/aws'
     config.fog_credentials = {
       provider:              'AWS',       
       aws_access_key_id:     'AKIAI22DA4WEUFJ6P6KA',
