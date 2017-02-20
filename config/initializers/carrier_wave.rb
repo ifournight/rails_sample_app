@@ -10,7 +10,8 @@ if Rails.env.production?
     config.fog_credentials = {
       provider:              'AWS',       
       aws_access_key_id:     'AKIAI22DA4WEUFJ6P6KA',
-      aws_secret_access_key: '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'
+      aws_secret_access_key: 'BtkDRY6jsZwRVBohfqJcoo59mcAY86FJfKbgHy03',
+      region: 'ap-northeast-1'
     }
     config.fog_directory = 'railssampleappsh'
   end
