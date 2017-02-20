@@ -21,5 +21,14 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", user_path(@user)
     assert_select "a[href=?]", edit_user_path(@user)
     assert_select "a[href=?]", logout_path
+    assert_select 'img.gravatar', true, 'Logged in home page should have user avatar'
+    assert_select 'form', true, 'logged in home page should have form for create new post'
+    if @user.feed.any?
+      assert_select 'ol.microposts', true, 'Logged in home page should have user feed'
+      assert_select 'div.pagination', true  
+    end
+    @user.feed.paginate(page: 1).each do |micropost|
+      assert_match micropost.content, response.body
+    end
   end
 end
