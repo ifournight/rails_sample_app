@@ -4,7 +4,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:michael)
   end
-  test "layout links" do
+  test "home page layout links" do
     get root_path
     assert_template 'static_pages/home'
     assert_select "a[href=?]", root_path, count: 2
@@ -29,6 +29,18 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     end
     @user.feed.paginate(page: 1).each do |micropost|
       assert_match micropost.content, response.body
+    end
+    assert_select 'a[href=?]', following_user_path(@user), true, 'Logged in home page display following link'
+    assert_select 'a[href=?]', followers_user_path(@user), true, 'Logged in home page display followers link'
+    assert_select '#following' do |elements|
+      elements.each do |element|
+        assert_match @user.following.count.to_s, element.content
+      end
+    end
+    assert_select '#followers' do |elements|
+      elements.each do |element|
+        assert_match @user.followers.count.to_s, element.content
+      end
     end
   end
 end
